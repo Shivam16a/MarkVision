@@ -1,0 +1,422 @@
+/* Layout Settings */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar Tuning */
+nav.navbar {
+    min-height: 52px;
+    z-index: 1030;
+}
+
+.brand-title {
+    font-size: 0.95rem;
+    letter-spacing: -0.2px;
+}
+
+/* Main Split View Area */
+.workspace-container {
+    display: flex;
+    flex: 1;
+    height: calc(100vh - 52px);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Panes */
+.pane {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 250px;
+    overflow: hidden;
+}
+
+#editor-pane {
+    flex: 1 1 50%;
+}
+
+#preview-pane {
+    flex: 1 1 50%;
+    background-color: var(--bs-body-bg);
+}
+
+.pane-header {
+    height: 40px;
+    user-select: none;
+    background-color: var(--bs-tertiary-bg);
+}
+
+.pane-body {
+    flex: 1;
+    height: calc(100% - 40px);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Textarea styling */
+#markdown-input {
+    width: 100%;
+    height: 100%;
+    resize: none;
+    border: none;
+    border-radius: 0;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 14px 16px;
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    outline: none;
+    box-shadow: none;
+}
+
+#markdown-input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Draggable Resizer Divider */
+.resizer {
+    width: 8px;
+    cursor: col-resize;
+    background-color: var(--bs-border-color);
+    transition: background-color 0.2s;
+    position: relative;
+    user-select: none;
+    z-index: 10;
+    align-items: center;
+    justify-content: center;
+}
+
+.resizer:hover,
+.resizer.resizing {
+    background-color: var(--bs-primary);
+}
+
+.resizer-handle {
+    width: 2px;
+    height: 24px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 2px;
+}
+
+/* Preview Scroll Area */
+.preview-scroll-area {
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* GitHub Markdown Base Adjustments */
+.markdown-body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    background-color: transparent !important;
+}
+
+/* ========================================================
+   LIGHT MODE SPECIFIC FIXES
+   ======================================================== */
+[data-bs-theme="light"] .markdown-body {
+    color: #1f2328 !important;
+}
+
+[data-bs-theme="light"] .markdown-body table {
+    display: table;
+    border-collapse: collapse;
+    border-spacing: 0;
+    color: #1f2328 !important;
+    background-color: #ffffff !important;
+    border: 1px solid #d0d7de !important;
+}
+
+[data-bs-theme="light"] .markdown-body table th {
+    font-weight: 600;
+    background-color: #f6f8fa !important;
+    color: #1f2328 !important;
+    border: 1px solid #d0d7de !important;
+    padding: 8px 14px !important;
+}
+
+[data-bs-theme="light"] .markdown-body table td {
+    background-color: #ffffff !important;
+    color: #1f2328 !important;
+    border: 1px solid #d0d7de !important;
+    padding: 8px 14px !important;
+}
+
+[data-bs-theme="light"] .markdown-body table tr:nth-child(2n) td {
+    background-color: #f6f8fa !important;
+}
+
+[data-bs-theme="light"] .markdown-body pre {
+    background-color: #f6f8fa !important;
+    border: 1px solid #d0d7de !important;
+}
+
+[data-bs-theme="light"] .markdown-body pre code {
+    color: #1f2328 !important;
+    background-color: transparent !important;
+}
+
+[data-bs-theme="light"] .markdown-body :not(pre)>code {
+    background-color: rgba(175, 184, 193, 0.2) !important;
+    color: #1f2328 !important;
+}
+
+[data-bs-theme="light"] .markdown-body blockquote {
+    color: #57606a !important;
+    border-left-color: #d0d7de !important;
+}
+
+[data-bs-theme="light"] .markdown-body hr {
+    background-color: #d0d7de !important;
+}
+
+/* ========================================================
+   DARK MODE SPECIFIC FIXES
+   ======================================================== */
+[data-bs-theme="dark"] .markdown-body {
+    color: #e6edf3 !important;
+}
+
+[data-bs-theme="dark"] .markdown-body table {
+    display: table;
+    border-collapse: collapse;
+    border-spacing: 0;
+    color: #e6edf3 !important;
+    background-color: #0d1117 !important;
+    border: 1px solid #30363d !important;
+}
+
+[data-bs-theme="dark"] .markdown-body table th {
+    font-weight: 600;
+    background-color: #161b22 !important;
+    color: #e6edf3 !important;
+    border: 1px solid #30363d !important;
+    padding: 8px 14px !important;
+}
+
+[data-bs-theme="dark"] .markdown-body table td {
+    background-color: #0d1117 !important;
+    color: #e6edf3 !important;
+    border: 1px solid #30363d !important;
+    padding: 8px 14px !important;
+}
+
+[data-bs-theme="dark"] .markdown-body table tr:nth-child(2n) td {
+    background-color: #161b22 !important;
+}
+
+[data-bs-theme="dark"] .markdown-body pre {
+    background-color: #161b22 !important;
+    border: 1px solid #30363d !important;
+}
+
+[data-bs-theme="dark"] .markdown-body pre code {
+    color: #e6edf3 !important;
+    background-color: transparent !important;
+}
+
+[data-bs-theme="dark"] .markdown-body :not(pre)>code {
+    background-color: rgba(110, 118, 129, 0.4) !important;
+    color: #e6edf3 !important;
+}
+
+[data-bs-theme="dark"] .markdown-body blockquote {
+    color: #8b949e !important;
+    border-left-color: #30363d !important;
+}
+
+[data-bs-theme="dark"] .markdown-body hr {
+    background-color: #30363d !important;
+}
+
+/* ========================================================
+   COMMON COMPONENTS
+   ======================================================== */
+.markdown-body p img {
+    display: inline-block;
+    margin-right: 4px;
+    margin-bottom: 6px;
+    vertical-align: middle;
+}
+
+.markdown-body .task-list-item {
+    list-style-type: none;
+}
+
+.markdown-body .task-list-item input[type="checkbox"] {
+    margin: 0 0.4em 0.25em -1.4em;
+    vertical-align: middle;
+}
+
+.markdown-body pre {
+    position: relative;
+    padding: 2.2rem 1rem 1rem 1rem !important;
+    border-radius: 6px;
+}
+
+.code-copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+    line-height: 1;
+    color: #8b949e;
+    background-color: #21262d;
+    border: 1px solid rgba(240, 246, 252, 0.1);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 5;
+    opacity: 0.9;
+}
+
+.markdown-body pre:hover .code-copy-btn {
+    opacity: 1;
+}
+
+.code-copy-btn:hover {
+    color: #c9d1d9;
+    background-color: #30363d;
+    border-color: #8b949e;
+}
+
+.code-copy-btn.copied {
+    color: #2da44e !important;
+    border-color: #2da44e !important;
+    background-color: rgba(46, 160, 67, 0.15) !important;
+}
+
+[data-bs-theme="light"] .code-copy-btn {
+    color: #57606a;
+    background-color: #ffffff;
+    border: 1px solid #d0d7de;
+    box-shadow: 0 1px 0 rgba(27, 31, 36, 0.04);
+}
+
+[data-bs-theme="light"] .code-copy-btn:hover {
+    color: #24292f;
+    background-color: #f3f4f6;
+    border-color: #8c959f;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--bs-border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--bs-secondary);
+}
+
+/* Drag & Drop Visual Feedback */
+.drag-active-zone {
+    outline: 2px dashed var(--bs-primary) !important;
+    outline-offset: -4px;
+    background-color: rgba(13, 110, 253, 0.05) !important;
+    transition: all 0.2s ease-in-out;
+}
+
+/* ========================================================
+   📱 RESPONSIVE BREAKPOINTS (Mobile & Tablet Layout)
+   ======================================================== */
+@media (max-width: 767.98px) {
+    .workspace-container {
+        height: calc(100vh - 94px);
+        /* Accounts for Navbar + Mobile Tab bar */
+    }
+
+    .pane {
+        display: none;
+        width: 100% !important;
+        flex: 1 1 100% !important;
+    }
+
+    .pane.active-mobile-pane {
+        display: flex;
+    }
+
+    /* Keep icons compact on mobile */
+    .navbar .btn-sm {
+        padding: 0.25rem 0.45rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+
+    /* Tablets: Balanced layout */
+    .workspace-container {
+        height: calc(100vh - 52px);
+    }
+}
+
+/* ========================================================
+   🧘 ZEN / FULLSCREEN FOCUS MODE
+   ======================================================== */
+body.zen-editor-active nav.navbar,
+body.zen-editor-active #drag-resizer,
+body.zen-editor-active #preview-pane,
+body.zen-editor-active #mobile-tabs {
+    display: none !important;
+}
+
+body.zen-editor-active #editor-pane {
+    flex: 0 0 100% !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100% !important;
+}
+
+body.zen-preview-active nav.navbar,
+body.zen-preview-active #drag-resizer,
+body.zen-preview-active #editor-pane,
+body.zen-preview-active #mobile-tabs {
+    display: none !important;
+}
+
+body.zen-preview-active #preview-pane {
+    flex: 0 0 100% !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100% !important;
+}
+
+body.zen-editor-active #markdown-input {
+    padding: 2.5rem clamp(1rem, 12vw, 16rem);
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+body.zen-preview-active .preview-scroll-area {
+    padding: 2.5rem clamp(1rem, 12vw, 16rem);
+}

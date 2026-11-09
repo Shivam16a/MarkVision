@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Solid High-Contrast Background -->
+  <rect width="512" height="512" rx="128" fill="#0969da" />
+  
+  <!-- Thick Bold Markdown 'M' -->
+  <path d="M 96 384 L 96 144 L 176 254 L 256 144 L 256 384" 
+        fill="none" 
+        stroke="#ffffff" 
+        stroke-width="52" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" />
+        
+  <!-- Bold Vision / Down Arrow Indicator -->
+  <!-- Stem -->
+  <line x1="384" y1="144" x2="384" y2="340" 
+        stroke="#ffffff" 
+        stroke-width="52" 
+        stroke-linecap="round" />
+        
+  <!-- Arrow Head -->
+  <path d="M 314 274 L 384 354 L 454 274" 
+        fill="none" 
+        stroke="#ffffff" 
+        stroke-width="52" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" />
+</svg>

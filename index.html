@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark" data-color-mode="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MarkVision : README Live Previewer</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <!-- GitHub Markdown CSS -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown.min.css" />
+
+    <!-- Highlight.js Theme (GitHub Dark / Light dynamic) -->
+    <link id="hljs-theme" rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+
+    <!-- KaTeX for Math Expressions (LaTeX) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="bg-body-tertiary">
+
+    <!-- Responsive Navbar -->
+    <nav class="navbar navbar-expand-lg border-bottom px-2 px-md-3 py-2 bg-body sticky-top">
+        <div class="container-fluid px-0">
+
+            <!-- Brand -->
+            <div class="d-flex align-items-center gap-2">
+                <img src="favicon.svg" alt="MarkVision" width="28" height="28" class="rounded flex-shrink-0" />
+                <span class="fw-bold fs-6 mb-0 text-nowrap">MarkVision</span>
+            </div>
+
+            <!-- Mobile Quick Actions (Visible on Small Screens) -->
+            <div class="d-flex align-items-center gap-1 d-lg-none">
+                <button id="btn-download-mobile"
+                    class="btn btn-sm btn-success d-flex align-items-center gap-1 px-2 py-1" title="Download README.md">
+                    <i class="bi bi-download"></i>
+                    <span style="font-size: 0.8rem;">Download</span>
+                </button>
+                <button class="btn btn-sm btn-outline-secondary px-2 py-1 ms-1" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#mobileMenuDrawer" aria-controls="mobileMenuDrawer" title="More Tools">
+                    <i class="bi bi-list fs-6"></i>
+                </button>
+            </div>
+
+            <!-- Desktop Action Buttons Toolbar (Visible on Large Screens >= 992px) -->
+            <div class="d-none d-lg-flex align-items-center gap-2">
+                <button id="btn-shortcuts" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1"
+                    data-bs-toggle="modal" data-bs-target="#shortcutsModal" title="Shortcuts (Ctrl+H)">
+                    <i class="bi bi-keyboard"></i>
+                    <span>Shortcuts</span>
+                </button>
+
+                <button id="btn-generate-toc" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1"
+                    title="Generate TOC (Alt+C)">
+                    <i class="bi bi-list-nested text-info"></i>
+                    <span>TOC</span>
+                </button>
+
+                <button id="btn-zen-mode" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1"
+                    title="Zen Mode (F10)">
+                    <i class="bi bi-arrows-fullscreen text-secondary"></i>
+                    <span>Zen</span>
+                </button>
+
+                <button id="btn-badge" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1"
+                    data-bs-toggle="modal" data-bs-target="#customBadgeModal" title="Add Badge (Alt+B)">
+                    <i class="bi bi-tag-fill text-warning"></i>
+                    <span>Badge</span>
+                </button>
+
+                <div class="vr mx-1"></div>
+
+                <button id="btn-ai-enhance" class="btn btn-sm btn-outline-info d-flex align-items-center gap-1"
+                    title="Enhance README with AI">
+                    <i class="bi bi-stars"></i>
+                    <span>Enhance</span>
+                </button>
+
+                <button id="btn-ai-fix" class="btn btn-sm btn-outline-warning d-flex align-items-center gap-1"
+                    title="Fix Errors with AI">
+                    <i class="bi bi-wrench-adjustable"></i>
+                    <span>Fix Errors</span>
+                </button>
+
+                <div class="vr mx-1"></div>
+
+                <button id="btn-theme" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1"
+                    title="Toggle Theme">
+                    <i id="theme-icon" class="bi bi-sun-fill"></i>
+                    <span id="theme-text">Light</span>
+                </button>
+
+                <!-- Desktop Utilities Dropdown -->
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false" title="More Operations">
+                        <i class="bi bi-three-dots-vertical"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                        <li>
+                            <button class="dropdown-item d-flex align-items-center gap-2" id="dropdown-copy-md">
+                                <i class="bi bi-clipboard"></i> Copy Markdown
+                            </button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item d-flex align-items-center gap-2" id="dropdown-sample">
+                                <i class="bi bi-file-earmark-code text-primary"></i> Reset Demo Sample
+                            </button>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <button class="dropdown-item d-flex align-items-center gap-2 text-danger"
+                                id="dropdown-clear">
+                                <i class="bi bi-trash3"></i> Clear Workspace
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Desktop Download CTA -->
+                <button id="btn-download" class="btn btn-sm btn-success d-flex align-items-center gap-1 ms-1"
+                    title="Download README.md (Ctrl+D)">
+                    <i class="bi bi-download"></i>
+                    <span>README.md</span>
+                </button>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation Drawer (Offcanvas Slide-over) -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenuDrawer" aria-labelledby="mobileMenuDrawerLabel">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title d-flex align-items-center gap-2 fs-6" id="mobileMenuDrawerLabel">
+                <i class="bi bi-sliders text-primary"></i> MarkVision Tools
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column gap-3 p-3">
+
+            <div class="d-grid gap-2">
+                <label class="text-body-secondary small fw-semibold">AI ASSISTANTS</label>
+                <button id="m-btn-ai-enhance" class="btn btn-outline-info text-start d-flex align-items-center gap-2"
+                    data-bs-dismiss="offcanvas">
+                    <i class="bi bi-stars"></i> Enhance README with AI
+                </button>
+                <button id="m-btn-ai-fix" class="btn btn-outline-warning text-start d-flex align-items-center gap-2"
+                    data-bs-dismiss="offcanvas">
+                    <i class="bi bi-wrench-adjustable"></i> Fix Errors with AI
+                </button>
+            </div>
+
+            <hr class="my-1">
+
+            <div class="d-grid gap-2">
+                <label class="text-body-secondary small fw-semibold">GENERATORS & TOOLS</label>
+                <button id="m-btn-badge" class="btn btn-outline-secondary text-start d-flex align-items-center gap-2"
+                    data-bs-dismiss="offcanvas" data-bs-toggle="modal" data-bs-target="#customBadgeModal">
+                    <i class="bi bi-tag-fill text-warning"></i> Add Custom Badge
+                </button>
+                <button id="m-btn-toc" class="btn btn-outline-secondary text-start d-flex align-items-center gap-2"
+                    data-bs-dismiss="offcanvas">
+                    <i class="bi bi-list-nested text-info"></i> Generate Table of Contents
+                </button>
+                <button id="m-btn-shortcuts"
+                    class="btn btn-outline-secondary text-start d-flex align-items-center gap-2"
+                    data-bs-dismiss="offcanvas" data-bs-toggle="modal" data-bs-target="#shortcutsModal">
+                    <i class="bi bi-keyboard"></i> Keyboard Shortcuts
+                </button>
+            </div>
+
+            <hr class="my-1">
+
+            <div class="d-grid gap-2">
+                <label class="text-body-secondary small fw-semibold">PREFERENCES & WORKSPACE</label>
+                <button id="m-btn-theme"
+                    class="btn btn-outline-secondary text-start d-flex align-items-center justify-content-between">
+                    <span><i class="bi bi-sun-fill me-2"></i> Toggle Theme</span>
+                    <span class="badge bg-secondary-subtle text-secondary-emphasis" id="m-theme-state">Dark</span>
+                </button>
+                <button id="m-btn-copy" class="btn btn-outline-secondary text-start d-flex align-items-center gap-2"
+                    data-bs-dismiss="offcanvas">
+                    <i class="bi bi-clipboard"></i> Copy Raw Markdown
+                </button>
+                <button id="m-btn-sample" class="btn btn-outline-secondary text-start d-flex align-items-center gap-2"
+                    data-bs-dismiss="offcanvas">
+                    <i class="bi bi-file-earmark-code text-primary"></i> Reset Demo Sample
+                </button>
+                <button id="m-btn-clear" class="btn btn-outline-danger text-start d-flex align-items-center gap-2"
+                    data-bs-dismiss="offcanvas">
+                    <i class="bi bi-trash3"></i> Clear Editor
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Mobile View Switcher (Tabs) -->
+    <div class="d-md-none bg-body border-bottom p-1">
+        <ul class="nav nav-pills nav-fill" id="mobile-tabs">
+            <li class="nav-item">
+                <button class="nav-link active py-1" id="tab-editor" type="button">
+                    <i class="bi bi-pencil-square me-1"></i>Editor
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link py-1" id="tab-preview" type="button">
+                    <i class="bi bi-eye-fill me-1"></i>Preview
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Workspace Container -->
+    <main class="workspace-container">
+
+        <!-- Editor Pane -->
+        <section class="pane" id="editor-pane">
+            <div class="pane-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom bg-body">
+                <div class="fw-semibold text-body-secondary small d-flex align-items-center gap-2">
+                    <i class="bi bi-code-square text-primary"></i>
+                    <span>RAW MARKDOWN INPUT</span>
+                </div>
+                <div class="stats-badge small text-body-secondary" id="editor-stats">
+                    Lines: 0 | Words: 0 | Chars: 0
+                </div>
+            </div>
+            <div class="pane-body">
+                <textarea id="markdown-input" class="form-control"
+                    placeholder="Paste your GitHub README Markdown code here..." spellcheck="false"></textarea>
+            </div>
+        </section>
+
+        <!-- Split Resizer Bar (Desktop Only) -->
+        <div class="resizer d-none d-md-flex" id="drag-resizer" title="Drag to resize panes">
+            <div class="resizer-handle"></div>
+        </div>
+
+        <!-- Preview Pane -->
+        <section class="pane" id="preview-pane">
+            <div class="pane-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom bg-body">
+                <div class="fw-semibold text-body-secondary small d-flex align-items-center gap-2">
+                    <i class="bi bi-github text-success"></i>
+                    <span>GITHUB RENDERED OUTPUT</span>
+                </div>
+                <div class="badge bg-secondary-subtle text-secondary-emphasis font-monospace">
+                    GFM Spec v0.29
+                </div>
+            </div>
+            <div class="pane-body preview-scroll-area">
+                <article class="markdown-body p-4" id="markdown-preview">
+                    <!-- Rendered Markdown HTML loads here -->
+                </article>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal 1: Shortcuts Cheatsheet -->
+    <div class="modal fade" id="shortcutsModal" tabindex="-1" aria-labelledby="shortcutsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title d-flex align-items-center gap-2" id="shortcutsModalLabel">
+                        <i class="bi bi-keyboard text-primary"></i> Keyboard Shortcuts Cheatsheet
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-3">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered align-middle mb-0">
+                            <thead class="table-group-divider">
+                                <tr>
+                                    <th style="width: 45%;">Shortcut</th>
+                                    <th>Action / Inserted Markdown</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><kbd>Ctrl</kbd> + <kbd>Z</kbd></td>
+                                    <td>Undo previous action</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Ctrl</kbd> + <kbd>Y</kbd> / <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd>
+                                    </td>
+                                    <td>Redo action</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Alt</kbd> + <kbd>B</kbd></td>
+                                    <td>Open Custom Badge Generator Modal</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Alt</kbd> + <kbd>T</kbd> <em>(or
+                                            <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd>)</em></td>
+                                    <td>Insert Ready Table Demo Template</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Ctrl</kbd> + <kbd>B</kbd></td>
+                                    <td>Bold (<code>**text**</code>)</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Ctrl</kbd> + <kbd>I</kbd></td>
+                                    <td>Italic (<code>*text*</code>)</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Ctrl</kbd> + <kbd>U</kbd></td>
+                                    <td>Underline (<code>&lt;u&gt;text&lt;/u&gt;</code>)</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd></td>
+                                    <td>Strikethrough (<code>~~text~~</code>)</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>L</kbd></td>
+                                    <td>Task Checklist (<code>- [ ] Item</code>)</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Ctrl</kbd> + <kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd></td>
+                                    <td>Headings (<code>#</code>, <code>##</code>, <code>###</code>)</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Alt</kbd> + <kbd>C</kbd></td>
+                                    <td>Auto-Generate Table of Contents (TOC)</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>F10</kbd></td>
+                                    <td>Zen Mode (Editor Fullscreen)</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Shift</kbd> + <kbd>F10</kbd></td>
+                                    <td>Zen Mode (Rendered Preview Fullscreen)</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Esc</kbd></td>
+                                    <td>Exit Zen Mode (Return to Split View)</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Ctrl</kbd> + <kbd>K</kbd></td>
+                                    <td>Link (<code>[title](url)</code>)</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>K</kbd></td>
+                                    <td>Image (<code>![alt](url)</code>)</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Ctrl</kbd> + <kbd>E</kbd></td>
+                                    <td>Code Block / Inline Code</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Ctrl</kbd> + <kbd>M</kbd></td>
+                                    <td>Inline Math (<code>$formula$</code>)</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd></td>
+                                    <td>Block Math (<code>$$formula$$</code>)</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Ctrl</kbd> + <kbd>/</kbd></td>
+                                    <td>Toggle Comment (<code>&lt;!-- --&gt;</code>)</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Ctrl</kbd> + <kbd>S</kbd></td>
+                                    <td>Save & Force Sync</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Ctrl</kbd> + <kbd>D</kbd></td>
+                                    <td>Quick Download README.md</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></td>
+                                    <td>Indent / Outdent 2 Spaces</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Dynamic Custom Badge Generator Modal -->
+    <div class="modal fade" id="customBadgeModal" tabindex="-1" aria-labelledby="customBadgeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title d-flex align-items-center gap-2" id="customBadgeModalLabel">
+                        <i class="bi bi-tag-fill text-warning"></i> Create Custom Badge
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body p-3">
+                    <div class="mb-3 text-center p-3 border rounded bg-body-tertiary">
+                        <small class="text-body-secondary d-block mb-2">Live Badge Preview</small>
+                        <div id="badge-custom-preview"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="badge-custom-label" class="form-label small fw-semibold">Badge Name / Text</label>
+                        <input type="text" id="badge-custom-label" class="form-control"
+                            placeholder="e.g. React, Node.js, v1.0.0" value="React" autocomplete="off" />
+                    </div>
+
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <label for="badge-custom-color" class="form-label small fw-semibold">Badge Color</label>
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="color" id="badge-custom-color" class="form-control form-control-color"
+                                    value="#0d6efd" title="Choose color" />
+                                <small class="text-body-secondary">Pick Color</small>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <label for="badge-custom-style" class="form-label small fw-semibold">Style</label>
+                            <select id="badge-custom-style" class="form-select">
+                                <option value="for-the-badge" selected>For The Badge</option>
+                                <option value="flat">Flat</option>
+                                <option value="flat-square">Flat Square</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer border-top">
+                    <small class="text-body-secondary me-auto">Shortcut: <kbd>Alt</kbd> + <kbd>B</kbd></small>
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="btn-insert-custom-badge"
+                        class="btn btn-sm btn-primary d-flex align-items-center gap-1">
+                        <i class="bi bi-plus-circle"></i> Insert Badge
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive"
+            aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="toast-message">Action successful!</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Third Party Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"></script>
+
+    <!-- KaTeX for Math Expressions (LaTeX) -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+
+    <!-- Application Core Logic -->
+    <script src="app.js"></script>
+
+    <!-- Modular Features -->
+    <script src="editorfeatures.js"></script>
+    <script src="badgegenerator.js"></script>
+    <script src="tocgenerator.js"></script>
+    <script src="zenmode.js"></script>
+    <script src="aifeatures.js"></script>
+</body>
+
+</html>
